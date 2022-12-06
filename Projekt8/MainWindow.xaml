@@ -1,0 +1,36 @@
+﻿<Window x:Class="Projekt8.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Projekt8"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width ="2*"></ColumnDefinition>
+                <ColumnDefinition Width ="9*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                <Button x:Name="LoadImageButton2" Click="LoadImageButtonClicked2">Load</Button>
+                <Label>Operacja</Label>
+
+                <RadioButton x:Name="DylatationButton">Dylatacja</RadioButton>
+                <RadioButton x:Name="ErosionButton">Erozja</RadioButton>
+                <RadioButton x:Name="OpeningButton">Otwarcie</RadioButton>
+                <RadioButton x:Name="ClosingButton">Domkniecie</RadioButton>
+                <RadioButton x:Name="HitOrMissButton">Hit-or-miss-Pocienianie</RadioButton>
+
+
+
+
+                <Button x:Name="TranformButton2" Click="TranformButtonClick2">Przekształć</Button>
+            </StackPanel>
+
+
+            <Image x:Name="MyImage2" Grid.Column="1"></Image>
+        </Grid>
+    </Grid>
+</Window>
