@@ -22,6 +22,8 @@
                 <RadioButton x:Name="OpeningButton">Otwarcie</RadioButton>
                 <RadioButton x:Name="ClosingButton">Domkniecie</RadioButton>
                 <RadioButton x:Name="HitOrMissButton">Hit-or-miss-Pocienianie</RadioButton>
+                <RadioButton x:Name="HitOrMissThickButton">Hit-or-miss-Pogrubianie</RadioButton>
+
 
 
 

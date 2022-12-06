@@ -35,6 +35,8 @@ namespace Projekt8
 
         Bitmap picture;
         Bitmap newpicture;
+        Bitmap newpicture2;
+
 
 
 
@@ -215,21 +217,52 @@ namespace Projekt8
             }
             if (HitOrMissButton.IsChecked == true)
             {
-                Thinning();
+                Thinning(1);
+                newpicture2 = new(newpicture); 
+                Thinning(2);
+                for (int i = 0; i < newpicture.Width; i++)
+                {
+                    for (int j = 0; j < newpicture.Height; j++)
+                    {
+                        if (newpicture2.GetPixel(i, j) == Color.FromArgb(255, 255, 255, 255))
+                        {
+                            newpicture.SetPixel(i, j, Color.FromArgb(255, 255, 255, 255));
+                        }
+                    }
+                }
+                SaveImage();
+            }
+
+            if (HitOrMissThickButton.IsChecked == true)
+            {
+                Thickening(1);
+                newpicture2 = new(newpicture);
+                Thickening(2);
+                for (int i = 0; i < newpicture.Width; i++)
+                {
+                    for (int j = 0; j < newpicture.Height; j++)
+                    {
+                        if (newpicture2.GetPixel(i, j) == Color.FromArgb(255, 255, 255, 255))
+                        {
+                            newpicture.SetPixel(i, j, Color.FromArgb(255, 255, 255, 255));
+                        }
+                    }
+                }
+                SaveImage();
             }
         }
 
-        private void Thinning()
+        private void Thickening(int num)
         {
-            int[] HitStructure = new int[] {
-                1,1,1,
-                1,1,1,
-                1,1,1
+            int[] Structure1 = new int[] {
+                1,1,2,
+                1,0,2,
+                1,2,0
             };
-            int[] MissStructure = new int[] {
-                1,0,1,
-                0,0,0,
-                1,0,1
+            int[] Structure2 = new int[] {
+                2,1,1,
+                2,0,1,
+                0,2,1
             };
 
             for (int i = 0; i<picture.Width; i++)
@@ -247,31 +280,161 @@ namespace Projekt8
                             {
                                 if (l >=0 && l < picture.Height)
                                 {
-                                    if(picture.GetPixel(k, l) == Color.FromArgb(255, 0, 0, 0))
-                                    {
-                                        ActiveStructure[tmp] = 0;
-                                    }
-                                    else
+
+                                    if (picture.GetPixel(k, l) == Color.FromArgb(255, 0, 0, 0))
                                     {
                                         ActiveStructure[tmp] = 1;
                                     }
+                                    else
+                                    {
+                                        ActiveStructure[tmp] = 0;
+                                    }
+
+                                    if (num == 1)
+                                    {
+                                        if (tmp == 2 || tmp == 5 || tmp == 7)
+                                        {
+                                            ActiveStructure[tmp] = 2;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        if (tmp == 0 || tmp == 3|| tmp == 7)
+                                        {
+                                            ActiveStructure[tmp] = 2;
+                                        }
+                                    }
+
                                     tmp++;
                                 }
                             }
                         }
                     }
-
-                    if(ActiveStructure.SequenceEqual(MissStructure) )
+                    if (num == 1)
                     {
-                        newpicture.SetPixel(i, j, Color.FromArgb(255, 0, 0, 0));
+
+                        if (ActiveStructure.SequenceEqual(Structure1))
+                        {
+                            newpicture.SetPixel(i, j, Color.FromArgb(255, 255, 255, 255));
+
+                        }
+                        else
+                        {
+                            newpicture.SetPixel(i, j, picture.GetPixel(i,j));
+
+                        }
                     }
                     else
                     {
-                        newpicture.SetPixel(i,j, Color.FromArgb(255, 255, 255, 255));
+                        if (ActiveStructure.SequenceEqual(Structure2))
+                        {
+                            newpicture.SetPixel(i, j, Color.FromArgb(255, 255, 255, 255));
+
+                        }
+                        else
+                        {
+                            newpicture.SetPixel(i, j, picture.GetPixel(i, j));
+                        }
                     }
+
+
+
                 }
             }
-            picture = newpicture;
+            SaveImage();
+        }
+
+        private void Thinning(int num)
+        {
+
+            int[] Structure1 = new int[] {
+                0,0,0,
+                2,1,2,
+                1,1,1
+            };
+            int[] Structure2 = new int[] {
+                2,0,0,
+                1,1,0,
+                2,1,2
+            };
+
+            for (int i = 0; i<picture.Width; i++)
+            {
+                for (int j = 0; j<picture.Height; j++)
+                {
+                    int[] ActiveStructure = new int[9];
+                    int tmp = 0;
+
+                    for (int k = i -1; k <= i+1; k++)
+                    {
+                        if (k >=0 && k < picture.Width)
+                        {
+                            for (int l = j -1; l <= j+1; l++)
+                            {
+                                if (l >=0 && l < picture.Height)
+                                {
+
+                                    if(picture.GetPixel(k, l) == Color.FromArgb(255, 0, 0, 0))
+                                    {
+                                        ActiveStructure[tmp] = 1;
+                                    }
+                                    else
+                                    {
+                                        ActiveStructure[tmp] = 0;
+                                    }
+
+                                    if(num == 1)
+                                    {
+                                        if (tmp == 3 || tmp == 5)
+                                        {
+                                            ActiveStructure[tmp] = 2;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        if (tmp == 0 || tmp == 6|| tmp == 8)
+                                        {
+                                            ActiveStructure[tmp] = 2;
+                                        }
+                                    }
+
+                                    tmp++;
+                                }
+                            }
+                        }
+                    }
+                    if(num == 1)
+                    {
+
+                        if (ActiveStructure.SequenceEqual(Structure1))
+                        {
+                            newpicture.SetPixel(i, j, Color.FromArgb(255, 255, 255, 255));
+
+                        }
+                        else
+                        {
+                            newpicture.SetPixel(i, j, Color.FromArgb(255, 0, 0, 0));
+
+                        }
+                    }
+                    else
+                    {
+                        if (ActiveStructure.SequenceEqual(Structure2))
+                        {
+                            newpicture.SetPixel(i, j, Color.FromArgb(255, 255, 255, 255));
+
+                        }
+                        else
+                        {
+                            newpicture.SetPixel(i, j, Color.FromArgb(255, 0, 0, 0));
+
+                        }
+                    }
+
+                   
+                }
+            }
+            //picture = newpicture;
             SaveImage();
         }
 
